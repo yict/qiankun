@@ -44,9 +44,10 @@ export function createSandboxContainer(
   } else {
     sandbox = new SnapshotSandbox(appName);
   }
-
+  // 引导时可能会调用一些副作用，例如使用样式加载器进行动态样式表注入，尤其是在开发阶段
   // some side effect could be be invoked while bootstrapping, such as dynamic stylesheet injection with style-loader, especially during the development phase
   const bootstrappingFreers = patchAtBootstrapping(appName, elementGetter, sandbox, scopedCSS, excludeAssetFilter);
+  // 安装自由器是一次性的，每次安装时都应重新初始化
   // mounting freers are one-off and should be re-init at every mounting time
   let mountingFreers: Freer[] = [];
 
